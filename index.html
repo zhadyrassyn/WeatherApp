@@ -13,24 +13,33 @@
         body, html {
             height: 100%;
             margin: 0;
+            color: white;
         }
             .bg {
-                background-image: url("http://negofer.com/image/negofer/mostly-sunny-weather/innovation-mostly-sunny-weather-picture-i-786826284-in-decorating-ideas.jpg");
+                background-image: url("https://c.tadst.com/gfx/750x500/sunrise.jpg?1");
                 height: 100%;
                 background-position: center;
                 background-repeat: no-repeat;
                 background-size: cover;
             }
                 .content {
-                    width: 500px;
+                    width: 400px;
                     text-align: center;
-                    padding-top: 150px;
+                    border-radius: 20px;
+                    background-color: dodgerblue;
+                    opacity: 0.8;
+                    padding: 10px 0;
+                    margin-top: 100px;
                 }
                     .toggle.degree, .toggle-on.degree, .toggle-off.degree {
                         border-radius: 20px;
                     }
                     .toggle.degree .toggle-handle {
                         border-radius: 20px;
+                    }
+
+                    p {
+                        color: black;
                     }
     </style>
 </head>
@@ -39,19 +48,18 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="mx-auto content">
-                    <h1>Your Local Weather Application</h1>
-                    <p>Almaty, KZ</p>
-                    <div>
-                        <span>62F</span>
-                        <input type="checkbox" data-style="degree" checked data-toggle="toggle" data-size="mini" data-on="F" data-off="C" data-onstyle="success" data-offstyle="danger">
-                    </div>
-                    <p>Clouds <i class="wi wi-night-sleet"></i></p>
+                    <h2>Almaty, KZ</h2>
+                    <h3>62 F</h3>
+                    <h3>Clouds <i class="wi wi-night-sleet"></i></h3>
+                    <p>Humidity: 100</p>
+                    <p>Pressure: 1013.5</p>
+                    <p>Sea level: 1023.22</p>
+                    <p>Sunrise: 1023.22</p>
+                    <p>Sunset: 1023.22</p>
+                    <input type="checkbox" data-style="degree" checked data-toggle="toggle" data-size="mini" data-on="F" data-off="C" data-onstyle="warning" data-offstyle="warning">
                 </div>
             </div>
-
         </div>
-
-
     </div>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
