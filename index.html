@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Weather application</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+            .bg {
+                background-image: url("http://negofer.com/image/negofer/mostly-sunny-weather/innovation-mostly-sunny-weather-picture-i-786826284-in-decorating-ideas.jpg");
+                height: 100%;
+                background-position: center;
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+                .content {
+                    width: 500px;
+                    text-align: center;
+                    padding-top: 150px;
+                }
+                    .toggle.degree, .toggle-on.degree, .toggle-off.degree {
+                        border-radius: 20px;
+                    }
+                    .toggle.degree .toggle-handle {
+                        border-radius: 20px;
+                    }
+    </style>
+</head>
+<body>
+    <div class="bg">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="mx-auto content">
+                    <h1>Your Local Weather Application</h1>
+                    <p>Almaty, KZ</p>
+                    <div>
+                        <span>62F</span>
+                        <input type="checkbox" data-style="degree" checked data-toggle="toggle" data-size="mini" data-on="F" data-off="C" data-onstyle="success" data-offstyle="danger">
+                    </div>
+                    <p>Clouds <i class="wi wi-night-sleet"></i></p>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+</body>
+</html>
