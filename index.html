@@ -48,23 +48,116 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="mx-auto content">
-                    <h2>Almaty, KZ</h2>
-                    <h3>62 F</h3>
-                    <h3>Clouds <i class="wi wi-night-sleet"></i></h3>
-                    <p>Humidity: 100</p>
-                    <p>Pressure: 1013.5</p>
-                    <p>Sea level: 1023.22</p>
-                    <p>Sunrise: 1023.22</p>
-                    <p>Sunset: 1023.22</p>
+                    <h2><span id="city">Almaty</span>, <span id="country">KZ</span></h2>
+                    <h3><span id="temp">63</span> F</h3>
+                    <h3><span id="weather">Clouds</span> <img src="" id="weather_img"></h3>
+                    <p>Humidity: <span id="humidity">100</span></p>
+                    <p>Sunrise: <span id="sunrise">1023.22</span></p>
+                    <p>Sunset: <span id="sunset">1023.22</span></p>
                     <input type="checkbox" data-style="degree" checked data-toggle="toggle" data-size="mini" data-on="F" data-off="C" data-onstyle="warning" data-offstyle="warning">
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+
+    <script type="text/javascript">
+        jQuery(function($) {
+            var locationFound = 0;
+            var lat = -1, lon = -1;
+            init();
+
+            function init() {
+                if(navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(setLocation, showError);
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            }
+
+            function setLocation(position) {
+                console.log(position.coords.latitude + ", " + position.coords.longitude);
+                lat = position.coords.latitude;
+                lon = position.coords.longitude;
+
+                sendRequest();
+            }
+
+            function showError(error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        alert("User denied the request for Geolocation.");
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        alert("Location information is unavailable.");
+                        break;
+                    case error.TIMEOUT:
+                        alert("The request to get user location timed out.");
+                        break;
+                    case error.UNKNOWN_ERR:
+                        alert("An unknown error occured.");
+                        break;
+                }
+            }
+
+            function sendRequest() {
+                $.ajax({
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    method: "GET",
+                    cache: false,
+                    url: "https://fcc-weather-api.glitch.me/api/current?lat=" + lat + "&lon=" + lon,
+                    success: function (data) {
+                        if (typeof data === 'string') {
+                            data = JSON.parse(data);
+                        }
+                        console.log(JSON.stringify(data));
+                        var weather = data.weather[0].main;
+                        var description = data.weather[0].description;
+                        var city = data.name;
+                        var country = data.sys.country;
+                        var humidity = data.main.humidity;
+                        var temp = data.main.temp;
+                        var sunriseMilli = data.sys.sunrise;
+                        var sunsetMilli = data.sys.sunset;
+
+                        var sunriseTime = getTime(sunriseMilli) + " a.m.";
+                        var sunsetTime = getTime(sunsetMilli) + " p.m.";
+
+                        $("#weather").text(weather + "(" + description + ")");
+                        $("#city").text(city);
+                        $("#country").text(country);
+                        $("#humidity").text(humidity);
+                        $("#sunrise").text(sunriseTime);
+                        $("#sunset").text(sunsetTime);
+                        $("#temp").text(temp);
+
+                        $("#weather_img").attr("src", data.weather[0].icon);
+                    },
+                    error: function(error) {
+                        alert(JSON.stringify(error));
+                    }
+                });
+            }
+
+            function getTime(time) {
+                var date = new Date(time);
+                var hours = date.getUTCHours();
+                var minutes = date.getUTCMinutes();
+                var seconds = date.getUTCSeconds();
+                return hours + ":" + minutes + ":" + seconds;
+            }
+
+        });
+
+    </script>
 </body>
 </html>
