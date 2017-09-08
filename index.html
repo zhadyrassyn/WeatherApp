@@ -23,13 +23,14 @@
                 background-size: cover;
             }
                 .content {
+                    display: none;
                     width: 400px;
                     text-align: center;
                     border-radius: 20px;
                     background-color: dodgerblue;
                     opacity: 0.8;
                     padding: 10px 0;
-                    margin-top: 100px;
+                    margin-top: 150px;
                 }
                     .toggle.degree, .toggle-on.degree, .toggle-off.degree {
                         border-radius: 20px;
@@ -41,20 +42,51 @@
                     p {
                         color: black;
                     }
+
+            #loading {
+                position: absolute;
+                margin: 0;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+                margin: 0;
+            }
+                #loading * {
+                    display: inline-block;
+                }
+                    #loading >  h1 {
+                        vertical-align: top;
+                    }
+                .loader {
+                    border: 4px solid #f3f3f3; /* Light grey */
+                    border-top: 4px solid #3498db; /* Blue */
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    animation: spin 2s linear infinite;
+                }
+
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
     </style>
 </head>
 <body>
     <div class="bg">
         <div class="container-fluid">
+            <div id="loading">
+                <h1>Loading</h1>
+                <div class="loader"></div>
+            </div>
             <div class="row">
                 <div class="mx-auto content">
                     <h2><span id="city">Almaty</span>, <span id="country">KZ</span></h2>
-                    <h3><span id="temp">63</span> F</h3>
+                    <h3><span id="temp">63</span> <span id="temp-type">&deg;C</span></h3>
                     <h3><span id="weather">Clouds</span> <img src="" id="weather_img"></h3>
                     <p>Humidity: <span id="humidity">100</span></p>
-                    <p>Sunrise: <span id="sunrise">1023.22</span></p>
-                    <p>Sunset: <span id="sunset">1023.22</span></p>
-                    <input type="checkbox" data-style="degree" checked data-toggle="toggle" data-size="mini" data-on="F" data-off="C" data-onstyle="warning" data-offstyle="warning">
+                    <input type="checkbox" id="degree-toggle" data-style="degree" checked data-toggle="toggle" data-size="mini" data-on="&deg;C" data-off="F" data-onstyle="warning" data-offstyle="warning">
                 </div>
             </div>
         </div>
@@ -126,21 +158,18 @@
                         var country = data.sys.country;
                         var humidity = data.main.humidity;
                         var temp = data.main.temp;
-                        var sunriseMilli = data.sys.sunrise;
-                        var sunsetMilli = data.sys.sunset;
-
-                        var sunriseTime = getTime(sunriseMilli) + " a.m.";
-                        var sunsetTime = getTime(sunsetMilli) + " p.m.";
 
                         $("#weather").text(weather + "(" + description + ")");
                         $("#city").text(city);
                         $("#country").text(country);
                         $("#humidity").text(humidity);
-                        $("#sunrise").text(sunriseTime);
-                        $("#sunset").text(sunsetTime);
                         $("#temp").text(temp);
 
                         $("#weather_img").attr("src", data.weather[0].icon);
+
+                        $("#loading").fadeOut(400, function () {
+                           $(".content").attr("display", "block");
+                        });
                     },
                     error: function(error) {
                         alert(JSON.stringify(error));
@@ -148,12 +177,23 @@
                 });
             }
 
-            function getTime(time) {
-                var date = new Date(time);
-                var hours = date.getUTCHours();
-                var minutes = date.getUTCMinutes();
-                var seconds = date.getUTCSeconds();
-                return hours + ":" + minutes + ":" + seconds;
+            var celcius = true;
+            $("#degree-toggle").change(function () {
+                celcius = !celcius;
+                changeTemp();
+            });
+
+            function changeTemp() {
+                var temp = 0;
+                var currentValue = $("#temp").text();
+                if(celcius) {
+                    temp = Math.round((currentValue - 32) / 1.8);
+                    $("#temp-type").text("°C");
+                } else {
+                    temp = Math.round(currentValue * 1.8 + 32);
+                    $("#temp-type").text("F");
+                }
+                $("#temp").text(temp);
             }
 
         });
