@@ -30,7 +30,11 @@
                     background-color: dodgerblue;
                     opacity: 0.8;
                     padding: 10px 0;
-                    margin-top: 150px;
+                    top: 50%;
+                    left: 50%;
+                    -ms-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+                    position: absolute;
                 }
                     .toggle.degree, .toggle-on.degree, .toggle-off.degree {
                         border-radius: 20px;
@@ -81,12 +85,12 @@
                 <div class="loader"></div>
             </div>
             <div class="row">
-                <div class="mx-auto content">
+                <div class="content">
                     <h2><span id="city">Almaty</span>, <span id="country">KZ</span></h2>
                     <h3><span id="temp">63</span> <span id="temp-type">&deg;C</span></h3>
                     <h3><span id="weather">Clouds</span> <img src="" id="weather_img"></h3>
                     <p>Humidity: <span id="humidity">100</span></p>
-                    <input type="checkbox" id="degree-toggle" data-style="degree" checked data-toggle="toggle" data-size="mini" data-on="&deg;C" data-off="F" data-onstyle="warning" data-offstyle="warning">
+                    <input type="checkbox" id="degree-toggle" data-style="degree" checked data-toggle="toggle" data-size="small" data-on="&deg;C" data-off="F" data-onstyle="warning" data-offstyle="warning">
                 </div>
             </div>
         </div>
@@ -168,7 +172,7 @@
                         $("#weather_img").attr("src", data.weather[0].icon);
 
                         $("#loading").fadeOut(400, function () {
-                           $(".content").attr("display", "block");
+                           $(".content").fadeIn();
                         });
                     },
                     error: function(error) {
